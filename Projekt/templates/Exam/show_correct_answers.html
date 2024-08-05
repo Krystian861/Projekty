@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ exam.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            {#margin: 0;#}
+            {#padding: 0;#}
+            {#display: flex;#}
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            color: #555;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0 auto;
+            max-width: 400px;
+            text-align: left;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        strong {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ exam.title }}</h1>
+        <a href="{% url 'exam_detail' exam.id %}">Egzaminy</a>
+
+    <ul>
+        {% for question in exam.question_set.all %}
+            <li>{{ question.text }}</li>
+            <ul>
+                {% for choice in question.choice_set.all %}
+                    <li>
+                        {% if choice.is_correct %}
+                            <strong>{{ choice.text }} (Correct)</strong>
+                        {% else %}
+                            {{ choice.text }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+</body>
+</html>

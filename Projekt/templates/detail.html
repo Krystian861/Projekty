@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Nowe spotkanie {% endblock title %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nazwa spotkania</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+        }
+
+        .heading {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+            border-radius: 5px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e0e0e0;
+        }
+
+        .back-link {
+            display: inline-block;
+            background-color: #999;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="heading" style="text-align: center">Szczegoly egzaminu</h1>
+    <div class="table-container">
+        <a href="{% url 'home' %}" class="back-link">Powrót</a>
+        <table>
+            <tr>
+                <th>Nazwa</th>
+                <th>Czas</th>
+                <th>Kategoria</th>
+                <th>Data</th>
+            </tr>
+            <tr>
+                <td>{{ detail.nazwa }}</td>
+                <td>{{ detail.czas }}</td>
+                <td>{{ detail.kategoria }}</td>
+                <td>{{ detail.data }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,329 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <style>
+       body {
+          background-color: lightgray;
+          cursor: auto;
+          margin: 0;
+          font-family: Arial, sans-serif;
+      }
+
+
+
+
+
+
+      header {
+          background-color: #333;
+          color: white;
+          padding: 10px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+
+
+
+
+      .logo h2 span {
+          color: #fff;
+      }
+
+
+
+
+      nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+      }
+
+
+
+
+      nav ul li {
+          margin: 0 10px;
+      }
+
+
+
+
+      nav ul li a {
+          color: white;
+          padding: 10px;
+          transition: background-color 0.7s, border-radius 0.4s;
+          border-radius: 15px 5px;
+          text-decoration: underline;
+      }
+
+
+
+
+      nav ul li a:hover {
+          background: linear-gradient(to right, gray, darkgray);
+          border-radius: 20px 15px;
+
+          transition: background-color 0.7s, border-radius 0.4s
+      }
+
+
+
+
+      .search-form input[type="text"],
+.search-form button {
+  padding: 8px;
+  border: none;
+  margin: 0;
+  border-radius: 20px 10px;
+}
+
+
+
+
+.search-form button {
+  background-color: #555;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+
+
+.search-form button:hover {
+  background-color: #444;
+}
+      footer {
+          background-color: #333;
+          color: white;
+          text-align: center;
+          padding: 10px;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+      }
+       .messages {
+     color: slategray;
+     font-size: 1rem;
+     font-weight: bold;
+     border: 2px solid gray;
+     padding: 10px;
+     width: 80%;
+     text-align: center;
+     margin: 0 auto;
+     max-width: 385px;
+     border-radius: 20px 15px;
+     background-color: darkgrey;
+ }
+.Button2 {
+   background-color: #808080;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 12px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+   border-radius: 20px 10px;
+}
+
+
+.Button2:hover{
+   background-color: dimgray;
+}
+.AAAAAAA {
+    color: gray;
+}
+.AAAAAAA:hover{
+    color: white;
+    text-decoration: underline;
+    transition: background-color 4ms;
+}  .status-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .logged-in {
+            background-color: green;
+        }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo" id="logo-link">
+          <h2><span id="logo-text">Egzaminy</span></h2>
+  </div>
+  <nav>
+      <ul>
+          {% if request.path != '/exam/Main_exam/' and not 'add_question' in request.path %}
+              {% if request.user.is_authenticated %}
+                <li><a href="{% url 'exam_list' %}">Egzaminy</a></li>
+              {% endif %}
+          {% endif %}
+
+          {% if request.path != "/contact/" %}
+               <li><a href="{% url 'Contact' %}">Kontakt</a></li>
+          {% endif %}
+          {% if request.path != "/chat/index6/" %}
+               {% if request.path != "/chat" %}
+                    <li><a href="{% url 'home4' %}">Czat</a></li>
+               {% endif %}
+          {% endif %}
+          {% if request.path != "/" %}
+              <li><a href="{% url 'home' %}">HOME</a></li>
+          {% endif %}
+          {% if request.user.is_authenticated %}
+                <li><a>Witaj</a></li>
+                <li><a id="profile-link" href="{% url 'profile' %}">{{ request.user.username }}!</a></li>
+                 <span class="status-circle logged-in"></span>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          {% if not request.path == "/signup/" %}
+                  <li><a href="{% url 'signup' %}">Rejestracja</a></li>
+          {% endif %}
+              {% if not request.path == "/login/" %}
+                  <li><a href="{% url 'login' %}">Login</a></li>
+              {% endif %}
+          {% endif %}
+      </ul>
+  </nav>
+{% if not on_new_record_page and not on_edit_record_page %}
+   <div class="search-form">
+       <form method="GET" class="searchbar">
+           <input type="text" name="q" placeholder="Wyszukaj..." value="{{ query }}">
+           <button type="submit">Wyszukaj</button>
+       </form>
+   </div>
+
+{% endif %}
+
+
+   {% if query %}
+       <form method="GET" action="">
+           <button type="submit" class="Button2">Reset</button>
+       </form>
+   {% endif %}
+
+
+   {% if query %}
+       <a>Wyniki dla "{{ query }}"</a>
+       {% if results %}
+           <ul>
+               {% for item in results %}
+                   <li><a>{{ item }}</a></li>
+               {% endfor %}
+           </ul>
+       {% endif %}
+   {% endif %}
+</header>
+
+
+{% if messages %}
+  <div class="messages">
+  {% for message in messages %}
+     <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+        {{ message }}
+     </div>
+  {% endfor %}
+  </div>
+{% endif %}
+
+
+
+
+{% block content %}
+{% endblock %}
+
+
+
+
+<footer>
+   <a>Autor: Krystian K.</a>
+   <br><a class="AAAAAAA"  href="{% url 'home2' %}" >Język Stron</a>
+</footer>
+</body>
+</html>
+<script>
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var profileLink = document.querySelector("#profile-link");
+
+        profileLink.addEventListener("click", function(event) {
+            if (window.location.pathname === "{% url 'profile' %}") {
+                window.location.href = "{% url 'home' %}";
+                event.preventDefault();
+            }
+        });
+    });
+   document.addEventListener('DOMContentLoaded', function() {
+    var logoLink = document.getElementById('logo-link');
+    var logoText = document.getElementById('logo-text');
+
+    if (window.location.pathname === "/kategorie" || window.location.pathname === "/meetings/" || window.location.pathname === '/new2' ) {
+        logoText.innerText = "Kategorie";
+    } else if (window.location.pathname === "/meet/meetings/" || window.location.pathname === "/meetings/add") {
+        logoText.innerText = "Spotkania";
+    } else if (window.location.pathname === "/profile/") {
+        logoText.innerText = "Twój Profil";
+    } else if (window.location.pathname === "/index6") {
+        logoText.innerText = "CHAT";
+    } else if (window.location.pathname === "/contact/") {
+        logoText.innerText = "Kontakt";
+    }
+    var matchResult = window.location.pathname.match(/\/website\/delete_kategoria\/(\d+)/);
+
+    if ((matchResult && matchResult.length > 1) || window.location.pathname.includes("/edit/edit2/") || window.location.pathname.includes("/detail2/")) {
+    document.querySelector(".logo h2 span").innerText = "Kategorie";
+    }
+        var matchResult = window.location.pathname.match(/\/meetings\/delete\/(\d+)/);
+
+    if ((matchResult && matchResult.length > 1) || window.location.pathname.includes("/meetings/edit/") || window.location.pathname.includes("/meetings/detail/")) {
+    document.querySelector(".logo h2 span").innerText = "Spotkania";
+    }
+
+
+    logoLink.addEventListener('click', function() {
+        if (window.location.pathname === '/kategorie') {
+            window.location.href = '/meet/meetings/';
+            logoText.innerText = 'Matematyka';
+        } else if (window.location.pathname === '/meet/meetings/') {
+            window.location.href = '/';
+            logoText.innerText = 'Matematyka';
+        } else if (window.location.pathname === '/new2') {
+            window.location.href = '/kategorie';
+            logoText.innerText = 'Matematyka';
+        } else if (window.location.pathname === '/contact/') {
+            window.location.href = '/';
+            logoText.innerText = 'Matematyka';
+        } else {
+            window.location.href = '/kategorie';
+            logoText.innerText = 'Kategorie';
+        }
+    });
+});
+    $(document).ready(function(){
+           $("#chat-toggle").click(function(){
+               $("#chat-box").toggle();
+           });
+       });
+
+
+
+
+</script>
+

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}QUIZY{% endblock %}
+
+{% block content %}
+<main style="display: flex;">
+    <aside class="sidebar">
+        <div class="AA">
+            <p>Liczba Egzaminów które zostały utworzone:</p>
+            <ul>
+                <li><a> {{ exams.count }}</a></li>
+            </ul>
+            <a>
+                   {% for j in exams %}
+                       {{ j.title }}<br/>
+                   {% endfor %}
+               </a>
+        </div>
+    </aside>
+
+    <section class="content-section">
+        {% for exam in exams %}
+            <nav class="navbar">
+                <ul>
+                    <li><a href="{% url 'exam_detail' exam.id %}">{{ exam.title }} : </a></li>
+                    <li><a href="{% url 'edit_exam' exam.id %}">Edytuj</a></li>
+                    <li><a href="{% url 'delete_exam' exam.id %}">Usuń</a></li>
+                    <li><a href="{% url 'solve_exam' exam.id %}">Rozwiąz</a></li>
+
+                </ul>
+            </nav>
+        {% endfor %}
+    </section>
+
+    <article class="action-section">
+        <nav>
+            <ul>
+                <li><a href="{% url 'add_exam' %}">Dodaj kolejny egzamin</a></li>
+            </ul>
+        </nav>
+    </article>
+</main>
+<style>
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+
+    .sidebar {
+        width: 20%;
+        padding: 10px;
+        background-color: #f4f4f4;
+    }
+
+    .AA {
+        margin-bottom: 20px;
+    }
+
+    .AA p {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .AA ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .AA ul li {
+        margin-bottom: 5px;
+    }
+
+    .content-section {
+        width: 40%;
+        padding: 10px;
+        background-color: #eaeaea;
+    }
+
+    .navbar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .navbar ul li {
+        margin-bottom: 10px;
+    }
+
+    .navbar ul li:last-child {
+        margin-bottom: 0;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 5px 0;
+        transition: background-color 0.3s, border-radius 0.3s, box-shadow 0.3s;
+    }
+
+    .navbar a:hover {
+        background: linear-gradient(to right, #808080, #6e7db3);
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .action-section {
+        width: 40%;
+        padding: 10px;
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+    }
+
+    .action-section nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .action-section nav ul li {
+        margin-bottom: 10px;
+    }
+
+    .action-section nav ul li:last-child {
+        margin-bottom: 0;
+    }
+
+    .action-section nav a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 10px;
+        transition: background-color 0.3s, border-radius 0.3s, box-shadow 0.3s;
+    }
+
+    .action-section nav a:hover {
+        background: linear-gradient(to right, #808080, #6e7db3);
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+</style>
+{% endblock content %}

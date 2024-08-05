@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+    {% block title %}Kontakt{% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="Login">
+    <div class="Form8">
+        <h2>Kontakt</h2>
+        <ul>
+            <li style="border: 1px solid gray; border-radius: 10px; padding: 10px; margin-bottom: 10px; background-color: lightgray; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"><strong>KONTAKT:</strong> krystiank</li>
+            <li style="border: 1px solid gray; border-radius: 10px; padding: 10px; margin-bottom: 10px; background-color: lightgray; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"><strong>Telefon:</strong> 000000000</li>
+        </ul>
+    </div>
+</div>
+    <style>
+
+
+.Login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+
+}
+
+.Form8 {
+    width: 350px;
+    padding: 30px;
+    background: #b9bdba;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid gray;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+
+}
+
+ul li {
+    margin-bottom: 5px;
+    font-size: 15px;
+    justify-content: center;
+
+}
+
+ul li strong {
+    font-weight: bold;
+    justify-content: center;
+    display: flex;
+}
+
+
+
+</style>
+
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Nowe spotkanie {% endblock title %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Szczegoly kategorii</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 40%;
+            margin: 50px auto;
+        }
+
+        .heading {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+            border-radius: 5px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e0e0e0;
+        }
+
+        .back-link {
+            display: inline-block;
+            background-color: #999;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            justify-content: center;
+
+        }
+
+        .back-link:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="heading">Szczegóły kategorii</h1>
+    <div class="table-container">
+        <a href="{% url 'home' %}" class="back-link">Powrót</a>
+        <table>
+            <tr>
+                <th>Nazwa</th>
+            </tr>
+            <tr>
+                <td>{{ detail2.kategoriaegzaminu }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+{% endblock content %}

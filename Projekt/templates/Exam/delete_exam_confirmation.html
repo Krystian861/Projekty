@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+    {% block title %}Usuń egzamin{% endblock %}
+
+{% block content %}
+    <div class="Delete">
+    <form method="post" class="Form16">
+        {% csrf_token %}
+            <h2 class="h2">Usuń Egzamin</h2>
+        <p>Czy na pewno chcesz to usunąć? "{{ exam.title }}" </p>
+        <div>
+            <div>
+                <button class="btn" type = "submit">Yes, Delete</button>
+            </div>
+            <br><a href = {% url 'exam_list'%}>Cancel</a>
+        </div>
+    </form>
+    </div>
+<style>
+    .Delete {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
+   .Form16 {
+        margin-top: 40px;
+        width: 350px;
+        border: 2px solid white;
+        padding:30px;
+        background: #b9bdba;
+        border-radius: 15px;
+        justify-content: center;
+        text-align: center;
+
+    }
+    .btn {
+    display: inline-block;
+    padding: 15px 40px;
+    font-size: 1.0rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+    background: linear-gradient(to right, black, gray);
+    color: #fff;
+    box-shadow: 0 5px 15px black;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px darkgray;
+}
+
+.btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.4s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    transition: all 0.6s ease;
+    z-index: 0;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.btn:hover::after {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+}
+</style>
+{% endblock %}

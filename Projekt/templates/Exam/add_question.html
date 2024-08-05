@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Add Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            width: 50%;
+        }
+
+        .form {
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .sub-heading {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+        .AAA {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: fit-content;
+            padding: 10px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .AAA a {
+            color: gray;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .AAA:hover a {
+            color: #666;
+        }
+
+        .button2 {
+            background-color: gray;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button2:hover {
+            background-color:grey;
+        }
+
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+
+        textarea {
+            width: 40%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form">
+            <form method="post">
+            <div class="AAA">
+                <a style="display: flex; align-items: center;" href="{% url 'exam_detail' exam.id %}">Powrót</a>
+            </div>
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ question_form.as_p }}
+                </div>
+                <h3 class="sub-heading">Choices</h3>
+                <div class="form-group">
+                    {% for form in choice_forms %}
+                        <label>
+                            {{ form }}
+                        </label>
+                    {% endfor %}
+
+                </div>
+                <button type="submit" class="button2">Save</button>
+             {% if messages %}
+  <div class="messages">
+  {% for message in messages %}
+     <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+        {{ message }}
+     </div>
+  {% endfor %}
+  </div>
+{% endif %}
+            </form>
+        </div>
+    </div>
+
+</body>
+<style>
+    .messages {
+        font-weight: bold;
+    }
+</style>
+</html>
+
