@@ -1,1 +1,37 @@
+Pomysłodawca projektu jak i jego realizator - Krystian K
+Skryptowiec - Krystian K
+Analiza kodu - Krystian K
+Główne języki - HTML, CSS, JS, PYTHON 
+Kod będzie znajdować się na GitHubie (niedalekiej przyszłości) 
+
+MathOps: Operacje Matematyczne w Kodzie
+MathOps to zaawansowana platforma, która łączy matematykę z możliwościami programowania, umożliwiając użytkownikom eksplorację różnych obszarów matematycznych za pomocą kodu. Naszym celem jest dostarczenie interaktywnego środowiska, gdzie użytkownicy mogą eksperymentować z różnorodnymi wzorami matematycznymi, takimi jak równania, algebra, logarytmy oraz wiele innych.
+
+Cała struktura projektu : 
+Projekt zawiera modele oraz widoki w których po stworzeniu danego rekordu po jego wejściu będzie mógł wypisać wzory. 
+użytkownik strony będzie mógł obliczyć z danymi liczbami pod dany wzór jaki będzie chciał
+Będzie to również podzielone na różne tematy takie jak : funkcja kwadratowa, logarytmy i podstawy.
+
+Aktualna działalność naszego projektu : 
+Delta i x1, x2 🟩
+wzory skróconego mnożenia 🟩
+dodawanie itp. 🟩
+potęgi 🟩
+Naprawienie obliczania logarytmów 🟩
+Naprawienie pierwiastka 🟩
+Naprawienie wartości bezwzględnej 🟩
+wzór pitagorasa : 🟩
+kilka wzorów w rekordzie 🟩
+Trygonometria 🟩
+Aktualna naprawa projektu : 
+Aktualnie nic nie ma 
+
+PS. Jeśli chcesz używać naszego projektu musisz najpierw poprosić mnie o pozwolenie ponieważ sam projekt już dosyć długo zajmuje a robię go sam ;) 
+
+Motywacja 
+
+moja ulubiona :D 
+“ It’s not over until I win” - Les Brown
+Moja własna :D 
+“Konieczne jest manifestować się jako Wielce Błyskotliwy i Uduchowiony po wielu porażkach aby dążyć do celu.” - Ja
 
