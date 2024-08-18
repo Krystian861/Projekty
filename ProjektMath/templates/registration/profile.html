@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+.header, .footer {
+    display: none;
+}
+
+.main-content {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.center {
+    width: 100%;
+    max-width: 400px;
+    margin: 25px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.avatar {
+    display: block;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.divider {
+    margin: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    padding: 3px;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+</style>
+    </style>
+<div class="container">
+    <div class="center">
+        <form method="POST" enctype="multipart/form-data" class="card profile-form">
+            {% csrf_token %}
+            {% if user.profile %}
+                <img src="{{user.profile.avatar.url}}" alt="{{ user.username }}" class="avatar" accept=".jpg,.jpeg,.png"/>
+            {% endif %}
+
+            <h2 class="text-center">{{ user.username | title }}</h2>
+            <p class="text-center"><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+            <hr class="divider">
+
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" value="{{user.email}}" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="avatar">Avatar:</label>
+                <input type="file" name="avatar" id="avatar" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">Update Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

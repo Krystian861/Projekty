@@ -1,0 +1,579 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Egzaminy{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<div class="toggle-theme">
+    <input type="checkbox" id="dark-mode-toggle">
+    <label for="dark-mode-toggle"><i class="fas fa-moon"></i> Ciemny Tryb</label>
+</div>
+
+<div class="search-wrapper">
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Szukaj wzorów...">
+        <i class="fas fa-search search-icon"></i>
+        <div id="spinner" style="display:none;">
+            <img src="{% static 'myapp/spinner.gif' %}" alt="Loading...">
+        </div>
+    </div>
+</div>
+
+
+<main class="main-container">
+    <aside class="left-section">
+        <div class="random-class">
+            <p class="section-title">Rodzaje wzorów:</p>
+            <ul id="egzamin-list">
+                <li>{{ Egzamin.count }}</li>
+                {% for j in Egzamin %}
+                    <li>{{ j.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+
+    <section class="right-section">
+        <div class="categories-and-formulas" id="categories-list">
+            {% for category in categories %}
+                <div class="category-container">
+                    <div class="category-header">
+                        <h2>{{ category.name }}</h2>
+                        <div class="category-options">
+                            <div class="edit-category" onclick="window.location.href='{% url 'edit_category2' category.pk %}'">
+                                <span class="option-text" title="Edytuj">Edytuj</span>
+                            </div>
+                            <div class="delete-category" onclick="window.location.href='{% url 'delete_category2' category.pk %}'">
+                                <span class="option-text" title="Usuń">Usuń</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="category-list">
+                        {% if category.formulas.all %}
+                            {% for formula in category.formulas.all %}
+                                <li class="category-item">
+                                    <div class="formula-header">
+                                        <a href="{% url 'formula_detail2' formula.pk %}">{{ formula.name }}:</a>
+                                        <div class="formula-options">
+                                            <div class="edit-formula" onclick="window.location.href='{% url 'edit_formula2' formula.pk %}'">
+                                                <span class="option-text" title="Edytuj wzór">Edytuj wzór</span>
+                                            </div>
+                                            <div class="delete-formula" onclick="window.location.href='{% url 'delete_formula2' formula.pk %}'">
+                                                <span class="option-text" title="Usuń wzór">Usuń wzór</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="category-item">
+                                <p>Brak dodanych wzorów.</p>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <aside class="middle-section">
+        <nav class="nav-list">
+            <ul>
+                <li><a href="{% url 'add_formula2' %}">Dodaj Nowy Wzór</a></li>
+                <li><a href="{% url 'add_category2' %}">Dodaj Nową Kategorię</a></li>
+            </ul>
+        </nav>
+    </aside>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Sprawdzenie preferencji trybu ciemnego przy ładowaniu strony
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            $('body').addClass('dark-mode');
+            $('#dark-mode-toggle').prop('checked', true);
+        }
+
+        // Funkcja ustawiająca tryb ciemny
+        function enableDarkMode() {
+            $('body').addClass('dark-mode');
+            localStorage.setItem('darkMode', 'enabled');
+        }
+
+        // Funkcja wyłączająca tryb ciemny
+        function disableDarkMode() {
+            $('body').removeClass('dark-mode');
+            localStorage.setItem('darkMode', 'disabled');
+        }
+
+        // Event listener dla przełącznika trybu ciemnego
+        $('#dark-mode-toggle').change(function() {
+            if (this.checked) {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
+            }
+        });
+
+        $('#search').on('keyup', function() {
+            var query = $(this).val();
+            $('#spinner').show();
+            $.ajax({
+                url: '{% url "home2" %}',
+                data: {
+                    'q': query
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#spinner').hide();
+                    $('#categories-list').empty();
+                    $('#egzamin-list').empty();
+
+                    if (data.message) {
+                        $('#categories-list').append('<p>' + data.message + '</p>');
+                    } else {
+                        $.each(data.categories, function(index, category) {
+                            var categoryHtml = '<div class="category-container">' +
+                                '<div class="category-header">' +
+                                '<h2>' + category.name + '</h2>' +
+                                '<div class="category-options">' +
+                                '<div class="edit-category" onclick="window.location.href=\'' + category.edit_url + '\'"><span class="option-text" title="Edytuj">Edytuj</span></div>' +
+                                '<div class="delete-category" onclick="window.location.href=\'' + category.delete_url + '\'"><span class="option-text" title="Usuń">Usuń</span></div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<ul class="category-list">';
+
+                            $.each(category.formulas, function(index, formula) {
+                                categoryHtml += '<li class="category-item">' +
+                                    '<div class="formula-header">' +
+                                    '<a href="' + formula.detail_url + '">' + formula.name + '</a>' +
+                                    '<div class="formula-options">' +
+                                    '<div class="edit-formula" onclick="window.location.href=\'' + formula.edit_url + '\'"><span class="option-text" title="Edytuj wzór">Edytuj wzór</span></div>' +
+                                    '<div class="delete-formula" onclick="window.location.href=\'' + formula.delete_url + '\'"><span class="option-text" title="Usuń wzór">Usuń wzór</span></div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</li>';
+                            });
+
+                            categoryHtml += '</ul></div>';
+                            $('#categories-list').append(categoryHtml);
+                        });
+
+                        $.each(data.formulas, function(index, formula) {
+                            $('#egzamin-list').append('<li>' + formula.name + '</li>');
+                        });
+
+                        // Aktualizacja licznika wyników
+                        $('#resultCount').text('Znaleziono: ' + data.categories.length + ' kategorii i ' + data.formulas.length + ' wzorów');
+                    }
+                }
+            });
+        });
+
+        var categoriesList = document.getElementById('categories-list');
+        var sortableCategories = new Sortable(categoriesList, {
+            animation: 150,
+            handle: '.category-header',
+            onSort: function(event) {
+                console.log('Kategorie zostały posortowane!');
+            }
+        });
+
+        $('.category-list').each(function(index, element) {
+            new Sortable(element, {
+                animation: 150,
+                handle: '.formula-header',
+                onSort: function(event) {
+                    console.log('Wzory zostały posortowane!');
+                }
+            });
+        });
+    });
+
+    function sortBy(criteria) {
+        // Przykład: sortowanie listy kategorii lub wzorów
+        let items = $('#categories-list .category-container');
+        items.sort(function(a, b) {
+            let an = $(a).find('.category-header h2').text(),
+                bn = $(b).find('.category-header h2').text();
+            if (criteria === 'name') {
+                return an.localeCompare(bn);
+            } else if (criteria === 'date') {
+                // Przykład sortowania według daty, wymaga dodatkowych danych w HTML
+                let ad = new Date($(a).data('date')),
+                    bd = new Date($(b).data('date'));
+                return ad - bd;
+            }
+        });
+        items.detach().appendTo('#categories-list');
+    }
+</script>
+<style>
+/* Ustawienia globalne */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    background-color: #f4f4f4;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* Główne kontenery */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    min-height: calc(100vh - 80px);
+    gap: 20px;
+}
+
+.left-section, .right-section, .middle-section {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .left-section, .dark-mode .right-section, .dark-mode .middle-section {
+    background-color: #2c2c2c;
+    color: #ffffff;
+}
+
+/* Sekcja lewa */
+.left-section {
+    width: 20%;
+}
+
+/* Przykładowa klasa */
+.random-class {
+    padding: 10px;
+}
+
+/* Tytuł sekcji */
+.section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Lista egzaminów */
+#egzamin-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#egzamin-list li {
+    margin-bottom: 5px;
+}
+
+/* Sekcja prawa */
+.right-section {
+    width: 60%;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Kategorie i wzory */
+.categories-and-formulas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.category-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .category-container {
+    background-color: #333333;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.category-header h2 {
+    font-size: 1em;
+    margin: 0;
+    color: inherit;
+}
+
+.category-options {
+    display: flex;
+    gap: 5px;
+}
+
+.category-options div {
+    padding: 3px 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 0.9em;
+}
+
+.category-options div:hover {
+    background-color: #e0e0e0;
+}
+
+.dark-mode .category-options div:hover {
+    background-color: #555555;
+}
+
+.category-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+/* Wyszukiwarka */
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 5px 10px;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .search-container {
+    background-color: #444444;
+}
+
+#search {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s;
+}
+
+#search:focus {
+    background-color: #e6e6e6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    font-size: 20px;
+    color: #aaa;
+    transition: transform 0.3s ease;
+}
+
+.search-icon.loading {
+    transform: rotate(360deg);
+}
+
+/* Elementy kategorii */
+.category-item {
+    margin-bottom: 10px;
+}
+
+.formula-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.formula-header a {
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.formula-options {
+    display: flex;
+    gap: 5px;
+}
+
+.formula-options div {
+    padding: 3px 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 0.9em;
+}
+
+.formula-options div:hover {
+    background-color: #e0e0e0;
+}
+
+.dark-mode .formula-options div:hover {
+    background-color: #555555;
+}
+
+.category-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.category-item a:hover {
+    background-color: #f0f0f0;
+    color: #007BFF;
+}
+
+.dark-mode .category-item a:hover {
+    background-color: #555555;
+    color: #1E90FF;
+}
+
+/* Sekcja środkowa */
+.middle-section {
+    width: 20%;
+    position: sticky;
+    top: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .middle-section {
+    background-color: #2c2c2c;
+}
+
+/* Nawigacja */
+.nav-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-list ul li {
+    margin-bottom: 10px;
+}
+
+.nav-list ul li a {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #6c757d;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    font-size: 0.9em;
+}
+
+.nav-list ul li a:hover {
+    background-color: #495057;
+}
+
+/* Przełącznik motywu */
+.toggle-theme {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .toggle-theme {
+    background-color: #2c2c2c;
+}
+
+.toggle-theme input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-theme label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    color: inherit;
+}
+
+.toggle-theme label i {
+    font-size: 1.5em;
+}
+
+/* Stopka */
+footer {
+    background-color: #4a4a4a;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Filtr i sortowanie */
+.filter-sort-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .left-section, .right-section, .middle-section {
+        width: 100%;
+    }
+
+    .categories-and-formulas {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+{% endblock %}

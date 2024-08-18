@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'delete_formula' formula.pk %}" method="post" class="delete-form">
+    {% csrf_token %}
+    <p>Czy na pewno chcesz usunąć kategorię "{{ formula.name }}"?</p>
+    <button type="submit">Tak, usuń</button>
+    <a class="cancel-link" href="{% url 'home' %}">Anuluj</a>
+</form>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5; /* Jasny szary */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1, h2, p {
+            color: #444; /* Ciemniejszy szary */
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        h1 {
+            font-size: 1.4em; /* Nieco mniejsza czcionka */
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 1.2em; /* Nieco mniejsza czcionka */
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 16px; /* Mniejsza czcionka dla lepszej czytelności */
+        }
+
+        form {
+            max-width: 320px; /* Zmniejszona szerokość */
+            margin: 20px auto;
+            padding: 15px;
+            background: #ffffff; /* Białe tło */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0; /* Jasnoszary */
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+
+        form:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Łagodniejszy cień */
+            border-color: #d0d0d0; /* Ciemniejszy jasnoszary */
+        }
+
+        form p {
+            font-size: 16px;
+            margin-bottom: 20px; /* Większa przestrzeń między tekstem a przyciskami */
+        }
+
+        form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #dc3545; /* Czerwony dla przycisku usunięcia */
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        form button:hover {
+            background-color: #c82333; /* Ciemniejszy czerwony na hover */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        form button:active {
+            background-color: #bd2130; /* Jeszcze ciemniejszy czerwony przy kliknięciu */
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .cancel-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #6c757d; /* Szaro-niebieski */
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .cancel-link:hover {
+            text-decoration: underline;
+            color: #343a40; /* Ciemniejszy szaro-niebieski na hover */
+        }
+    </style>
+{% endblock %}

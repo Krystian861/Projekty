@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+    }
+
+    .card {
+        width: 90%;
+        max-width: 400px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center; /* Wyśrodkowanie zawartości formularza */
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left; /* Wyśrodkowanie tekstu wewnątrz formularza */
+    }
+
+    .form-group label {
+        display: block; /* Etykieta zajmuje całą szerokość */
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input {
+        width: calc(100% - 12px); /* Szerokość pola input minus padding */
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+
+<div class="center">
+  <form method="post" class="card" novalidate>
+    {% csrf_token %}
+    <h2 class="text-center">Log in to your account</h2>
+    {% for field in form %}
+    <div class="form-group">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}
+      <small class="error">{{ field.errors|striptags }}</small>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    <input type="submit" value="Login" class="btn btn-primary">
+    <hr>
+    <p class="text-center">Don't have an account? <a href="{% url 'register' %}">Join Now</a></p>
+  </form>
+</div>
+{% endblock content %}

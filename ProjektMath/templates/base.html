@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Django Site</title>
+    {% load static %}
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: white;
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .navbar-toggle-icon {
+            width: 24px;
+            height: 3px;
+            background-color: #fff;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .navbar-menu {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .nav-item {
+            margin-left: 20px;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link i {
+            margin-right: 5px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: #495057;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #6c757d;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .dropdown-item {
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-item i {
+            margin-right: 5px;
+        }
+
+        .dropdown-item:hover, .dropdown-item.active {
+            background-color: #7a7a7a;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+        }
+
+        .container.content {
+            flex: 1;
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, black, #e9ecef);
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            animation: slideIn 0.5s;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover, .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar-menu.active {
+                display: flex;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
+
+            .nav-item {
+                margin: 0;
+            }
+
+            .dropdown-menu {
+                position: static;
+                display: none;
+            }
+
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand" id="logo-link">
+                    <a><span id="logo-text">Matematyka</span></a>
+                </div>
+                <button class="navbar-toggle" id="navbar-toggle">
+                    <span class="navbar-toggle-icon"></span>
+                </button>
+                <div class="navbar-menu" id="navbar-menu">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}"><i class="fas fa-home"></i> Home</a></li>
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link" ><i class="fas fa-envelope"></i> Kontakt</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"><i class="fas fa-user"></i> Konto</a>
+                            <div class="dropdown-menu">
+                                {% if request.user.is_authenticated %}
+                                    <a class="dropdown-item"><i class="fas fa-smile"></i> Witaj</a>
+                                    <a class="dropdown-item {% if request.path == '/profile/' %}active{% endif %}" id="profile-link" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> {{ request.user.username }}</a>
+                                    <a href="{% url 'logout' %}" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Wyloguj się</a>
+                                {% else %}
+                                    {% if not request.path == '/login/' %}
+                                        <a href="{% url 'login' %}" class="dropdown-item {% if request.path == '/login/' %}active{% endif %}"><i class="fas fa-sign-in-alt"></i> Zaloguj się</a>
+                                    {% endif %}
+                                    {% if not request.path == '/register/' %}
+                                        <a href="{% url 'register' %}" class="dropdown-item {% if request.path == '/register/' %}active{% endif %}"><i class="fas fa-user-plus"></i> Zarejestruj się</a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"><i class="fas fa-calendar-alt"></i> Termin</a>
+                            <div class="dropdown-menu">
+                                <a href="{% url 'odkiedy' %}" class="dropdown-item {% if request.path == '/odkiedy/' %}active{% endif %}"><i class="fas fa-clock"></i> Od kiedy</a>
+                                <a href="{% url 'dokiedy' %}" class="dropdown-item {% if request.path == '/dokiedy/' %}active{% endif %}"><i class="fas fa-hourglass-end"></i> Do kiedy</a>
+                                <a href="{% url 'Pomysl' %}" class="dropdown-item"><i class="fas fa-lightbulb"></i> Pomysł na nasz projekt</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="{% url 'users' %}" class="nav-link {% if request.path == '/users/' %}active{% endif %}"><i class="fas fa-users"></i> Główni pomysłodawcy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <p>Projekt robi: Krystian</p>
+            </div>
+        </footer>
+    </div>
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toggleButton = document.getElementById('navbar-toggle');
+            var menu = document.getElementById('navbar-menu');
+
+            toggleButton.addEventListener('click', function () {
+                menu.classList.toggle('active');
+            });
+
+            var logoLink = document.getElementById('logo-link');
+            var logoText = document.getElementById('logo-text');
+
+            var pageTitles = {
+                "/": "Matematyka",
+                "/home2": "Matematyka",
+                "/meet/meetings/": "Spotkania",
+                "/meetings/add": "Spotkania",
+                "/profile/": "Twój Profil",
+                "/index6": "CHAT",
+                "/contact/": "Kontakt",
+                "/users/": "Pomysł",
+                "/odkiedy/": "Termin",
+                "/dokiedy/": "Termin",
+                "/pomysl/": "Termin",
+                "/home2/": "Matematyka 2",
+            };
+
+            if (pageTitles[window.location.pathname]) {
+                logoText.innerText = pageTitles[window.location.pathname];
+            }
+
+            logoLink.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                if (window.location.pathname === '/') {
+                    window.location.href = 'home2'
+                } else if (window.location.pathname === '/home2/') {
+                    window.location.href = '/';
+                } else if (window.location.pathname === '/users/') {
+                    window.location.href = '/';
+                } else if (window.location.pathname === '/profile/') {
+                    window.location.href = '/';
+                } else if (window.location.pathname === '/odkiedy/' || (window.location.pathname === '/dokiedy/' || (window.location.pathname === '/pomysl/'))) {
+                    window.location.href = '/';
+                } else if (window.location.pathname === '/contact/') {
+                    window.location.href = '/';
+                }
+
+
+                logoText.innerText = 'Matematyka';
+            });
+
+            var contactLink = document.getElementById('contact-link');
+            var contactModal = document.getElementById('contactModal');
+            var closeContactModal = document.getElementById('closeContactModal');
+
+            contactLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                contactModal.style.display = "block";
+            });
+
+            closeContactModal.addEventListener('click', function() {
+                contactModal.style.display = "none";
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target == contactModal) {
+                    contactModal.style.display = "none";
+                }
+            });
+
+            var ideaLink = document.getElementById('idea-link');
+            var ideaModal = document.getElementById('ideaModal');
+            var closeIdeaModal = document.getElementById('closeIdeaModal');
+
+            ideaLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                ideaModal.style.display = "block";
+            });
+
+            closeIdeaModal.addEventListener('click', function() {
+                ideaModal.style.display = "none";
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target == ideaModal) {
+                    ideaModal.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Formula Detail{% endblock %}
+
+{% block content %}
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 30px auto;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #555;
+            margin-bottom: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        form input,
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 0.875rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        form input:focus,
+        form textarea:focus,
+        form select:focus {
+            border-color: #888;
+            outline: none;
+            box-shadow: 0 0 4px rgba(136, 136, 136, 0.5);
+        }
+
+        form button {
+            padding: 0.5rem 1rem;
+            background-color: #6c757d;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #5a6268;
+            transform: scale(1.03);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form button:active {
+            background-color: #4e555b;
+            transform: scale(0.98);
+        }
+
+        .result-table {
+            margin-top: 1rem;
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .result-table th, .result-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        .result-table th {
+            background-color: #6c757d;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .result-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .result-table tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .result-table ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .result-table li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 0.75rem;
+                margin: 20px auto;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            form button {
+                width: 100%;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+
+    <div class="content-wrapper">
+        <h1>{{ formula.name }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" name="calculate">Calculate</button>
+        </form>
+        {{ result }}
+        {% if zipped_results %}
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Formula</th>
+                        <th>Result</th>
+                        <th>Steps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for formula, result, steps in zipped_results %}
+                        <tr>
+                            <td>{{ formula }}</td>
+                            <td>{{ result }}</td>
+                            <td>
+                                <ul>
+                                    {% for step in steps %}
+                                        <li>{{ step }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Edycja wzoru</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zapisz zmiany</button>
+    </form>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5; /* Jasny szary */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            color: #444; /* Ciemniejszy szary */
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.4em; /* Nieco mniejsza czcionka */
+            font-weight: 600;
+        }
+
+        form {
+            max-width: 320px; /* Zmniejszona szerokość */
+            margin: 20px auto;
+            padding: 15px;
+            background: #ffffff; /* Białe tło */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0; /* Jasnoszary */
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+
+        form:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Łagodniejszy cień */
+            border-color: #d0d0d0; /* Ciemniejszy jasnoszary */
+        }
+
+        form input[type="text"],
+        form textarea {
+            width: calc(100% - 20px);
+            padding: 6px; /* Mniejszy padding */
+            margin-bottom: 12px; /* Większa przestrzeń między elementami */
+            border: 1px solid #ccc; /* Jasnoszary */
+            border-radius: 4px; /* Mniejsze zaokrąglenia */
+            font-size: 13px; /* Mniejsza czcionka */
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        form input[type="text"]:focus,
+        form textarea:focus {
+            border-color: #6c757d; /* Szaro-niebieski */
+            box-shadow: 0 0 4px rgba(108, 117, 125, 0.3);
+            outline: none;
+        }
+
+        form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #6c757d; /* Szaro-niebieski */
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        form button:hover {
+            background-color: #5a6268; /* Ciemniejszy szaro-niebieski */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        form button:active {
+            background-color: #43474b; /* Jeszcze ciemniejszy szaro-niebieski */
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.2em;
+                margin-top: 20px;
+            }
+
+            form {
+                padding: 15px;
+                margin: 15px;
+                max-width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

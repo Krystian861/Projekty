@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Kontakt{% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="contact-container">
+    <div class="contact-card">
+        <h2>Główni pomysłodawcy</h2>
+        <ul class="contact-list">
+            <li class="contact-item"><strong>Imię i nazwisko:</strong> Krystian K.</li>
+            <li class="contact-item"><strong>Kontakt:</strong> krystian@gmail</li>
+        </ul>
+    </div>
+</div>
+<style>
+    /* Global Styles */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .contact-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        padding: 1rem;
+    }
+
+    .contact-card {
+        width: 100%;
+        max-width: 400px;
+        padding: 1.5rem;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .contact-card h2 {
+        color: #555;
+        margin-bottom: 1rem;
+        font-size: 1.75rem;
+    }
+
+    .contact-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+
+    .contact-item {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;
+    }
+
+    .contact-item strong {
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .contact-card {
+            width: 90%;
+            padding: 1rem;
+        }
+
+        .contact-card h2 {
+            font-size: 1.5rem;
+        }
+
+        .contact-item {
+            font-size: 0.875rem;
+        }
+    }
+</style>
+
+{% endblock %}

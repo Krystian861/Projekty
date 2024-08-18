@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Formula{% endblock %}
+
+{% block content %}
+<h1>Add New Formula</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Formula</button>
+</form>
+<a class="back-link" href="{% url 'home' %}">Back to list</a>
+
+<style>
+    /* styles.css */
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    h1 {
+        color: #444;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1.5em;
+        font-weight: 600;
+    }
+
+    form {
+        max-width: 350px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+        transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    form:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        border-color: #cccccc;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form textarea {
+        width: calc(100% - 20px);
+        padding: 8px;
+        margin-bottom: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form input[type="password"]:focus,
+    form textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+        outline: none;
+    }
+
+    form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff; /* Blue color for add button */
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    form button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    form button:active {
+        background-color: #004080; /* Even darker blue when clicked */
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #007bff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        form {
+            padding: 15px;
+            margin: 15px;
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
