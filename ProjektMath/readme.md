@@ -19,19 +19,5 @@ Backend: Node.js, Express
 Baza danych: SQL
 Autoryzacja: JWT (JSON Web Token)
 Przechowywanie obrazów profilowych: Cloudinary (lub inna usługa przechowywania obrazów)
-Instalacja
-Klonowanie repozytorium:
-bash
-Skopiuj kod
-git clone https://github.com/nazwa_uzytkownika/menedzer-wzorow-matematycznych.git
-Instalacja zależności:
-bash
-Skopiuj kod
-cd menedzer-wzorow-matematycznych
-npm install
-Uruchomienie aplikacji:
-bash
-Skopiuj kod
-npm start
-Autor
-Projekt, testowanie, programowanie: Krystian K.
+Autor 
+- Projekt, testowanie, programowanie: Krystian K.
