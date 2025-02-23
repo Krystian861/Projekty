@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Raport Rekordów</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    h1 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>Raport Rekordów</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Tytuł</th>
+        <th>Treść</th>
+        <th>Data utworzenia</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in records %}
+      <tr>
+        <td>{{ record.title }}</td>
+        <td>{{ record.data }}</td>
+        <td>{{ record.created_at|date:"d-m-Y H:i" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

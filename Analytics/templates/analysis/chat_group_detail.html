@@ -1,0 +1,66 @@
+{% extends "analysis/base.html" %}
+{% block title %}Grupa Czatowa: {{ group.name }}{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-3">Grupa Czatowa: {{ group.name }}</h2>
+  <p>
+    <strong>Lider:</strong> {{ group.leader.username }}<br>
+    <strong>Członkowie:</strong>
+    {% for member in group.members.all %}
+      {{ member.username }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  </p>
+  <p>
+    <a href="{% url 'chat_group_add_member' group.id %}" class="btn btn-secondary btn-sm">Dodaj członka</a>
+    <a href="{% url 'chat_group_list' %}" class="btn btn-link">Powrót do listy grup</a>
+  </p>
+  <hr>
+  <!-- Konwersacja -->
+  <div id="chat-log" class="border rounded p-3 mb-3" style="max-height: 400px; overflow-y: auto;">
+    {% for message in messages %}
+      <p><strong>{{ message.sender.username }}</strong>: {{ message.content }} <small class="text-muted">{{ message.created_at|date:"d-m-Y H:i" }}</small></p>
+    {% empty %}
+      <p>Brak wiadomości.</p>
+    {% endfor %}
+  </div>
+  <!-- Formularz wysyłania wiadomości -->
+  <form method="post" id="chat-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Wyślij wiadomość</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Możesz tu dodać integrację z websocketem (patrz consumers.py) dla real-time chatu
+  // Przykład poniżej (podstawowy):
+  const groupId = "{{ group.id }}";
+  const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+  const chatSocket = new WebSocket(ws_scheme + '://' + window.location.host + '/ws/chat/' + groupId + '/');
+
+
+  chatSocket.onmessage = function(e) {
+      const data = JSON.parse(e.data);
+      const chatLog = document.getElementById("chat-log");
+      chatLog.innerHTML += `<p><strong>${data.sender}</strong>: ${data.message}</p>`;
+  };
+
+  chatSocket.onclose = function(e) {
+      console.error("Chat socket closed unexpectedly");
+  };
+
+  document.getElementById("chat-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const inputField = document.querySelector("#chat-form textarea");
+      const message = inputField.value;
+      chatSocket.send(JSON.stringify({ "message": message }));
+      inputField.value = "";
+  });
+    const groupId = "{{ group.id }}";
+    const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    const chatSocket = new WebSocket(ws_scheme + '://' + window.location.host + '/ws/chat/' + groupId + '/');
+
+</script>
+{% endblock %}

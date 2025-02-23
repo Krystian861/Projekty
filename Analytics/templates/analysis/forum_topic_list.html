@@ -1,0 +1,20 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Tematy Forum{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-3">Tematy Forum</h2>
+  <p><a href="{% url 'forum_topic_create' %}" class="btn btn-success">Utwórz nowy temat</a></p>
+  <ul class="list-group">
+    {% for topic in topics %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'forum_topic_detail' topic.id %}">{{ topic.title }}</a>
+        <small class="text-muted">od {{ topic.created_by.username }} ({{ topic.created_at|date:"d-m-Y" }})</small>
+      </li>
+    {% empty %}
+      <li class="list-group-item">Brak tematów.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

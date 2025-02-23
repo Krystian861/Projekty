@@ -1,0 +1,13 @@
+{% extends "analysis/base.html" %}
+{% block title %}Dodaj członka do grupy "{{ group.name }}"{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-3">Dodaj nowego członka do grupy "{{ group.name }}"</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Dodaj członka</button>
+  </form>
+  <p class="mt-3"><a href="{% url 'chat_group_detail' group.id %}" class="btn btn-link">Powrót do grupy</a></p>
+</div>
+{% endblock %}

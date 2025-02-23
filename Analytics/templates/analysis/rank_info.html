@@ -1,0 +1,25 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Informacje o Rangach{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Informacje o Rangach</h2>
+  <table class="table table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Ranga</th>
+        <th scope="col">Opis</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for rank, description in ranks.items %}
+      <tr>
+        <td>{{ rank|capfirst }}</td>
+        <td>{{ description }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

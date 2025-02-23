@@ -1,0 +1,12 @@
+{% extends "analysis/base.html" %}
+{% block title %}Ustawienia Profilu{% endblock %}
+{% block content %}
+<div class="container my-4">
+  <h2 class="mb-4">Ustawienia Profilu</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary hover-scale">Zapisz zmiany</button>
+  </form>
+</div>
+{% endblock %}

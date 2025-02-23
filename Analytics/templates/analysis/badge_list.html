@@ -1,0 +1,29 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Odznaki{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Twoje Odznaki</h2>
+  <div class="row">
+    {% for badge in badges %}
+      <div class="col-md-3 mb-3">
+        <div class="card h-100">
+          {% if badge.icon %}
+            <img src="{{ badge.icon.url }}" class="card-img-top" alt="{{ badge.name }}">
+          {% endif %}
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ badge.name }}</h5>
+            <p class="card-text">{{ badge.description }}</p>
+            {% if badge in user.badges.all %}
+              <span class="badge bg-success">Przyznana</span>
+            {% else %}
+              <span class="badge bg-secondary">Nie przyznana</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

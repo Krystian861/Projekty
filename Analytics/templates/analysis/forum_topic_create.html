@@ -1,0 +1,15 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Nowy Temat Forum{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-3">Utwórz Nowy Temat Forum</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Utwórz Temat</button>
+  </form>
+  <p class="mt-3"><a href="{% url 'forum_topic_list' %}" class="btn btn-link">Powrót do tematów</a></p>
+</div>
+{% endblock %}

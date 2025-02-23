@@ -1,0 +1,44 @@
+{% extends "analysis/base.html" %}
+{% block title %}Activity Feed{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h2 class="mb-4 text-center">Activity Feed</h2>
+  {% if activities %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for act in activities %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">
+                {{ act.created_at|date:"d-m-Y H:i" }} – Przez: {{ act.created_by }}
+              </h6>
+              {% if act.url %}
+                <h5 class="card-title">
+                  <a href="{{ act.url }}" class="text-decoration-none">
+                    {% if act.title %}
+                      {{ act.title }}
+                    {% else %}
+                      {{ act.content }}
+                    {% endif %}
+                  </a>
+                </h5>
+              {% else %}
+                <h5 class="card-title">
+                  {% if act.title %}
+                    {{ act.title }}
+                  {% else %}
+                    {{ act.content }}
+                  {% endif %}
+                </h5>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-secondary text-center">Brak aktywności.</div>
+  {% endif %}
+</div>
+{% endblock %}

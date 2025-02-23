@@ -1,0 +1,16 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Profil użytkownika{% endblock %}
+
+{% block content %}
+  <h2 class="mb-3">Profil użytkownika</h2>
+  <div class="card">
+      <div class="card-body">
+          <h5 class="card-title">{{ user_profile.username }}</h5>
+          <p class="card-text"><strong>Email:</strong> {{ user_profile.email }}</p>
+          <p class="card-text"><strong>Ranga:</strong> {{ user_profile.rank }}</p>
+          <p class="card-text"><strong>Liczba rekordów:</strong> {{ record_count }}</p>
+          <a href="{% url 'record_list' %}" class="btn btn-primary">Powrót do rekordów</a>
+      </div>
+  </div>
+{% endblock %}

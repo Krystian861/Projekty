@@ -1,0 +1,13 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Edytuj rekord{% endblock %}
+
+{% block content %}
+  <h2 class="mb-3">Edytuj rekord: {{ record.title }}</h2>
+  <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-warning">Zapisz zmiany</button>
+  </form>
+  <p class="mt-3"><a href="{% url 'record_list' %}" class="btn btn-secondary">Powrót do listy rekordów</a></p>
+{% endblock %}

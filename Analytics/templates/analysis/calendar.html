@@ -1,0 +1,18 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Kalendarz Alertów{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Kalendarz Alertów</h2>
+  <ul class="list-group">
+    {% for record in upcoming_records %}
+      <li class="list-group-item">
+        <strong>{{ record.title }}</strong> – alert ustawiony na: {{ record.alert_date|date:"d-m-Y" }}
+      </li>
+    {% empty %}
+      <li class="list-group-item">Brak nadchodzących alertów.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

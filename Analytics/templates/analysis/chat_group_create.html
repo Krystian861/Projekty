@@ -1,0 +1,13 @@
+{% extends "analysis/base.html" %}
+{% block title %}Utwórz Grupę Czatową{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-3">Utwórz Nową Grupę Czatową</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Utwórz grupę</button>
+  </form>
+  <p class="mt-3"><a href="{% url 'chat_group_list' %}" class="btn btn-link">Powrót do listy grup</a></p>
+</div>
+{% endblock %}

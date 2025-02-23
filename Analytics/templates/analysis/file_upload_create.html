@@ -1,0 +1,13 @@
+{% extends "analysis/base.html" %}
+{% block title %}Upload Pliku{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-3">Upload Nowego Pliku</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Wyślij plik</button>
+  </form>
+  <p class="mt-3"><a href="{% url 'file_upload_list' %}" class="btn btn-link">Powrót do listy plików</a></p>
+</div>
+{% endblock %}

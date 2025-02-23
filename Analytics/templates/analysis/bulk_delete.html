@@ -1,0 +1,25 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Bulk Delete Rekordów{% endblock %}
+
+{% block content %}
+  <h2 class="mb-3">Bulk Delete Rekordów</h2>
+  <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+          <p>Zaznacz rekordy, które chcesz usunąć:</p>
+          {% for record in records %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="record_ids" value="{{ record.id }}" id="record{{ record.id }}">
+                <label class="form-check-label" for="record{{ record.id }}">
+                    {{ record.title }} – utworzony: {{ record.created_at|date:"Y-m-d H:i" }}
+                </label>
+            </div>
+          {% empty %}
+            <p>Brak rekordów do usunięcia.</p>
+          {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-danger">Usuń zaznaczone rekordy</button>
+      <a href="{% url 'record_list' %}" class="btn btn-secondary">Anuluj</a>
+  </form>
+{% endblock %}

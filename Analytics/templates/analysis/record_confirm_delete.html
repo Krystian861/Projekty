@@ -1,0 +1,12 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Usuń rekord{% endblock %}
+
+{% block content %}
+  <h2 class="mb-3">Czy na pewno chcesz usunąć rekord: "{{ record.title }}"?</h2>
+  <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Tak, usuń</button>
+      <a href="{% url 'record_list' %}" class="btn btn-secondary">Anuluj</a>
+  </form>
+{% endblock %}

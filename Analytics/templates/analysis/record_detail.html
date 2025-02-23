@@ -1,0 +1,17 @@
+{% extends "analysis/base.html" %}
+
+{% block title %}Szczegóły rekordu{% endblock %}
+
+{% block content %}
+  <h2 class="mb-3">Szczegóły rekordu</h2>
+  <div class="card">
+      <div class="card-body">
+          <h5 class="card-title">{{ record.title }}</h5>
+          <p class="card-text">{{ record.data }}</p>
+          <p class="text-muted">Utworzony: {{ record.created_at|date:"Y-m-d H:i" }}</p>
+          <a href="{% url 'record_update' record.id %}" class="btn btn-warning">Edytuj</a>
+          <a href="{% url 'record_delete' record.id %}" class="btn btn-danger">Usuń</a>
+          <a href="{% url 'record_list' %}" class="btn btn-secondary">Powrót</a>
+      </div>
+  </div>
+{% endblock %}

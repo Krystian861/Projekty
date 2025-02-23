@@ -1,0 +1,48 @@
+{% extends "analysis/base.html" %}
+{% block title %}Witamy w AnalyticsApp!{% endblock %}
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded-3 text-center">
+  <h1 class="display-4">Witamy w AnalyticsApp!</h1>
+  <p class="lead">Kompleksowe rozwiązanie do analizy danych, zarządzania rekordami, czatu, forum, udostępniania plików i nie tylko.</p>
+  <hr class="my-4">
+  {% if not user.is_authenticated %}
+  <p>
+      <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Zarejestruj się</a>
+      <a class="btn btn-outline-secondary btn-lg" href="{% url 'login' %}" role="button">Zaloguj się</a>
+  </p>
+  {% else %}
+  <p>
+      <a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}" role="button">Przejdź do Dashboardu</a>
+  </p>
+  {% endif %}
+</div>
+<div class="row text-center mt-5">
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-bar-chart-line-fill" style="font-size: 2.5rem;"></i>
+        <h5 class="card-title mt-3">Analiza Danych</h5>
+        <p class="card-text">Interaktywne wykresy i statystyki.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-chat-dots-fill" style="font-size: 2.5rem;"></i>
+        <h5 class="card-title mt-3">Czat</h5>
+        <p class="card-text">Real-time komunikacja z użytkownikami.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-award-fill" style="font-size: 2.5rem;"></i>
+        <h5 class="card-title mt-3">Gamifikacja</h5>
+        <p class="card-text">Zdobywaj XP, odznaki i awansuj w rankingu!</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

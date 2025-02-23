@@ -1,0 +1,27 @@
+{% extends "analysis/base.html" %}
+{% block title %}Integracja z Google{% endblock %}
+{% block content %}
+  <h2 class="mb-4 text-center">Integracja z Google Calendar i Google Maps</h2>
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="card-title mb-0">Google Calendar</h5>
+        </div>
+        <div class="card-body p-0">
+          <iframe src="{{ google_calendar_url }}" style="border: 0" width="100%" height="400" frameborder="0" scrolling="no"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h5 class="card-title mb-0">Google Maps</h5>
+        </div>
+        <div class="card-body p-0">
+          <iframe src="{{ google_maps_url }}" style="border:0" width="100%" height="400" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
